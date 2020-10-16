@@ -1,0 +1,1 @@
+"use strict";window.addEventListener("load",function(){var e=document.createElement("p"),t=document.createTextNode("Remember me:");e.appendChild(t),e.setAttribute("class","login__rememberMe"),document.querySelector("#rememberMe").before(e)});

@@ -1,0 +1,166 @@
+@import 'normalize.css';
+
+*:focus {
+    outline: none;
+}
+
+a, a:visited, a:hover {
+    color: initial;
+    text-decoration: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1350px;
+}
+
+.content {
+    margin-top: 165px;
+}
+
+// ==== HEADER ====
+
+.header {
+    display: flex;
+    position: fixed;
+
+    justify-content: space-between;
+    align-items: center;
+
+    height: 145px;
+    width: 80vw;
+
+    &__logo {
+        position: relative;
+
+        height: 160px;
+        width: 160px;
+
+        & svg {
+            position: absolute;
+        }
+        &-up {
+            top: 30px;
+            left: -78px;
+            z-index: 2;
+            transform: scale(.3);
+        }
+        &-bottom {
+            z-index: 1;
+            & image {
+                height: 110%;
+            }
+        }
+    }
+
+    &__nav {
+        font-size: large;
+    }
+
+    &__link + &__link {
+        margin: 0 30px;
+    }
+
+    &__link {
+        opacity: .75;
+        transition: opacity .2s linear;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+// ==== / HEADER ====
+
+
+// ==== SIGN UP & LOGIN ====
+
+.login {
+    &__form {
+        width: 300px;
+
+        display: grid;
+
+        grid-template-columns: auto auto 20px;
+        
+        grid-template-areas:
+            "u u u"
+            "p p p"
+            ". btn ."
+            ". rmP rmI";
+
+        row-gap: 1vh;
+    
+        #username {
+            grid-area: u;
+        }
+        #password {
+            grid-area: p;
+        }
+        p[class=login__rememberMe] {
+            grid-area: rmP;
+        }
+        input[id=rememberMe] {
+            grid-area: rmI;
+        }
+        .login__btn {
+            grid-area: btn;
+        }
+    }
+    &__rememberMe {
+        margin: 0;
+    }
+
+    &__field {
+        box-shadow: 3px 2px 2px rgba(200, 200, 200, .3);
+    }
+}
+
+.signUp {
+
+    &__form {
+        width: 300px;
+
+        display: grid;
+
+        grid-template-columns: auto 40px 40px;
+        
+        grid-template-areas:
+            "e e e"
+            "u u u"
+            "p p p"
+            "pc pc pc"
+            "ph ph ph"
+            ". btn btn";
+
+        row-gap: 1vh;
+    
+        #email {
+            grid-area: e;
+        }
+        #username {
+            grid-area: u;
+        }
+        #password {
+            grid-area: p;
+        }
+        #passwordConfirm {
+            grid-area: pc;
+        }
+        #phone {
+            grid-area: ph;
+        }
+        .signUp__btn {
+            grid-area: btn;
+        }
+    }
+
+    &__field {
+        box-shadow: 3px 2px 2px rgba(200, 200, 200, .3);
+    }
+}
+
+// ==== / SIGN UP & LOGIN ====

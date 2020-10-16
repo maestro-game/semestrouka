@@ -1,0 +1,10 @@
+<Context sessionCookieName="L8dwNGnFKDGkJSfq">
+<!--    <Resource name="jdbc/kinolive"-->
+<!--              auth="Container"-->
+<!--              type="javax.sql.DataSource"-->
+<!--              driverClassName="org.postgresql.Driver"-->
+<!--              url="jdbc:postgresql://localhost:5432/kinolive"-->
+<!--              username="postgres"-->
+<!--              password="zyrf14aa"-->
+<!--              closeMethod="close" />-->
+</Context>

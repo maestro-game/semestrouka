@@ -1,0 +1,120 @@
+@import 'normalize.css';
+*:focus {
+  outline: none;
+}
+
+a, a:visited, a:hover {
+  color: initial;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 1350px;
+}
+
+.content {
+  margin-top: 165px;
+}
+
+.header {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  align-items: center;
+  height: 145px;
+  width: 80vw;
+}
+.header__logo {
+  position: relative;
+  height: 160px;
+  width: 160px;
+}
+.header__logo svg {
+  position: absolute;
+}
+.header__logo-up {
+  top: 30px;
+  left: -78px;
+  z-index: 2;
+  transform: scale(0.3);
+}
+.header__logo-bottom {
+  z-index: 1;
+}
+.header__logo-bottom image {
+  height: 110%;
+}
+.header__nav {
+  font-size: large;
+}
+.header__link + .header__link {
+  margin: 0 30px;
+}
+.header__link {
+  opacity: 0.75;
+  transition: opacity 0.2s linear;
+}
+.header__link:hover {
+  opacity: 1;
+}
+
+.login__form {
+  width: 300px;
+  display: grid;
+  grid-template-columns: auto auto 20px;
+  grid-template-areas: "u u u" "p p p" ". btn ." ". rmP rmI";
+  row-gap: 1vh;
+}
+.login__form #username {
+  grid-area: u;
+}
+.login__form #password {
+  grid-area: p;
+}
+.login__form p[class=login__rememberMe] {
+  grid-area: rmP;
+}
+.login__form input[id=rememberMe] {
+  grid-area: rmI;
+}
+.login__form .login__btn {
+  grid-area: btn;
+}
+.login__rememberMe {
+  margin: 0;
+}
+.login__field {
+  box-shadow: 3px 2px 2px rgba(200, 200, 200, 0.3);
+}
+
+.signUp__form {
+  width: 300px;
+  display: grid;
+  grid-template-columns: auto 40px 40px;
+  grid-template-areas: "e e e" "u u u" "p p p" "pc pc pc" "ph ph ph" ". btn btn";
+  row-gap: 1vh;
+}
+.signUp__form #email {
+  grid-area: e;
+}
+.signUp__form #username {
+  grid-area: u;
+}
+.signUp__form #password {
+  grid-area: p;
+}
+.signUp__form #passwordConfirm {
+  grid-area: pc;
+}
+.signUp__form #phone {
+  grid-area: ph;
+}
+.signUp__form .signUp__btn {
+  grid-area: btn;
+}
+.signUp__field {
+  box-shadow: 3px 2px 2px rgba(200, 200, 200, 0.3);
+}
