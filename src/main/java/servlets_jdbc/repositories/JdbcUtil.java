@@ -53,7 +53,7 @@ public class JdbcUtil implements Closeable {
         int res;
 
         try (Connection conn = connect();
-            PreparedStatement stmt = wrapObjects(conn.prepareStatement(sql), args)) {
+             PreparedStatement stmt = wrapObjects(conn.prepareStatement(sql), args)) {
 
             res = stmt.executeUpdate();
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class JdbcUtil implements Closeable {
         int res;
 
         try (Connection conn = connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
 
             res = stmt.executeUpdate(sql);
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class JdbcUtil implements Closeable {
         List<T> res = new LinkedList<>();
 
         try (Connection conn = connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
 
             try (ResultSet resultSet = stmt.executeQuery(sql)) {
 
@@ -106,7 +106,7 @@ public class JdbcUtil implements Closeable {
         List<T> res = new LinkedList<>();
 
         try (Connection conn = connect();
-            PreparedStatement stmt = wrapObjects(conn.prepareStatement(sql), args)) {
+             PreparedStatement stmt = wrapObjects(conn.prepareStatement(sql), args)) {
 
             try (ResultSet resultSet = stmt.executeQuery()) {
 

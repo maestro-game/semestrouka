@@ -1,48 +1,22 @@
-<#include "header.ftl">
+<#ftl encoding='UTF-8'>
 
-<#macro _errors class>
+<#macro html page>
 
-    <#if errors??>
-        <#list errors?values as e>
-            <p class="${class}__error error">${e}</p>
-        </#list>
-    </#if>
-
-</#macro>
-
-<#-- Fields should contain list of elements formatted like
-        "fieldName#fieldType" or "fieldName#fieldType#'field placeHolder'" -->
-<#macro _form fields class action method="post" label=false btnValue="Submit">
-
-    <#assign pattern="^((\\+7|7|8)+([0-9])\{10})$">
-
-    <form action="${action}" method="${method}" class="${class}__form">
-        <#list fields as field>
-            <#assign fieldVars = field?split("#")>
-            <#assign fieldName = fieldVars[0]>
-            <#assign fieldType = fieldVars[1]>
-            <#if label>
-                <label for="${fieldName}" class="${class}__label">Enter your ${fieldName}:</label>
-            </#if>
-            <input type="${fieldType}" name="${fieldName}" id="${fieldName}"
-                   class="${(fieldName == "rememberMe")?then(
-                            class + "__" + fieldName, class + "__field")}"
-                   <#if fieldVars[2]??>
-                        placeholder=${fieldVars[2]}
-                   </#if>
-                   <#switch fieldType>
-                        <#case "tel">
-                            pattern=${pattern}
-                            <#break>
-                        <#case "username">
-                        <#case "password">
-                        <#case "email">
-                            required
-                            <#break>
-                    </#switch>
-            />
-        </#list>
-        <input type="submit" value="${btnValue}" class="${class}__btn" />
-    </form>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/files/css/dist/main.min.css">
+    <script src="/files/js/dist/main.prod.js"></script>
+    <title>${page?capitalize}</title>
+</head>
+<body>
+<div class="container container_${page}">
+    <#include "header.ftl">
+    <#nested>
+</div>
 
 </#macro>

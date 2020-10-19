@@ -1,12 +1,13 @@
 package servlets_jdbc.listeners;
 
-import com.zaxxer.hikari.HikariDataSource;
 import servlets_jdbc.repositories.*;
 import servlets_jdbc.services.*;
 import servlets_jdbc.services.security.GeneralValidator;
 import servlets_jdbc.services.security.PasswordEncoder;
 import servlets_jdbc.services.security.PasswordEncoderBCryptImpl;
+import servlets_jdbc.services.security.SecurityChecker;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
@@ -19,42 +20,60 @@ public class ComponentScanner implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
+//        ==== PROPERTIES ====
+
         Properties properties = new Properties();
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("cookie.properties"));
         } catch (IOException e) {
-            throw new IllegalArgumentException("Wrong name", e);
+            throw new IllegalArgumentException("Wrong properties filename", e);
         }
-
-        JdbcUtil jdbcUtil = new JdbcUtil();
-
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-
-        PasswordEncoder passwordEncoder = new PasswordEncoderBCryptImpl();
-
-        GeneralValidator generalValidator = new GeneralValidator();
-
-        UserRepository userRepository = new UserRepositoryImpl(jdbcUtil);
-
-        CookieRepository cookieRepository = new CookieRepositoryImpl(jdbcUtil);
-
-        UserService userService = new UserServiceImpl(userRepository, cookieRepository);
-
-        LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository, cookieRepository);
-
-        SignUpService signUpService = new SignUpServiceImpl(userRepository);
 
         sce.getServletContext().setAttribute("cookieProperties", properties);
 
-        sce.getServletContext().setAttribute("jdbcUtil", jdbcUtil);
+//        ==== /PROPERTIES ====
 
+
+//        ==== HELPERS ====
+
+        JdbcUtil jdbcUtil = new JdbcUtil();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        PasswordEncoder passwordEncoder = new PasswordEncoderBCryptImpl();
+        GeneralValidator generalValidator = new GeneralValidator();
+        SecurityChecker securityChecker = new SecurityChecker();
+
+        sce.getServletContext().setAttribute("jdbcUtil", jdbcUtil);
+        sce.getServletContext().setAttribute("executorService", executorService);
         sce.getServletContext().setAttribute("passwordEncoder", passwordEncoder);
         sce.getServletContext().setAttribute("generalValidator", generalValidator);
-        sce.getServletContext().setAttribute("executorService", executorService);
+        sce.getServletContext().setAttribute("securityChecker", securityChecker);
 
-        sce.getServletContext().setAttribute("signUpService", signUpService);
-        sce.getServletContext().setAttribute("loginService", loginService);
+//        ==== /HELPERS ====
+
+
+//        ==== REPOSITORIES ====
+
+        UserRepository userRepository = new UserRepositoryImpl(jdbcUtil);
+        CookieRepository cookieRepository = new CookieRepositoryImpl(jdbcUtil);
+        FilmRepository filmRepository = new FilmRepositoryImpl(jdbcUtil);
+
+//        ==== /REPOSITORIES ====
+
+
+//        ==== SERVICES ====
+
+        UserService userService = new UserServiceImpl(userRepository, cookieRepository);
+        LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository, cookieRepository);
+        SignUpService signUpService = new SignUpServiceImpl(userRepository);
+        FilmService filmService = new FilmServiceImpl(filmRepository);
+
         sce.getServletContext().setAttribute("userService", userService);
+        sce.getServletContext().setAttribute("loginService", loginService);
+        sce.getServletContext().setAttribute("signUpService", signUpService);
+        sce.getServletContext().setAttribute("filmService", filmService);
+
+//        ==== /SERVICES ====
+
     }
 
     @Override
@@ -64,6 +83,10 @@ public class ComponentScanner implements ServletContextListener {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public static <T> T get(ServletConfig cfg, String componentName, Class<T> className) {
+        return className.cast(cfg.getServletContext().getAttribute(componentName));
     }
 
 }
