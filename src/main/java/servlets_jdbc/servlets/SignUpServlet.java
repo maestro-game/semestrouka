@@ -1,5 +1,6 @@
 package servlets_jdbc.servlets;
 
+import servlets_jdbc.listeners.ComponentScanner;
 import servlets_jdbc.models.Person;
 import servlets_jdbc.services.SignUpService;
 import servlets_jdbc.services.security.GeneralValidator;
@@ -17,17 +18,15 @@ import java.util.Map;
 
 public class SignUpServlet extends HttpServlet {
 
-    private PasswordEncoder passwordEncoder;
-
     private SignUpService signUpService;
-
+    private PasswordEncoder passwordEncoder;
     private GeneralValidator generalValidator;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        signUpService = (SignUpService) config.getServletContext().getAttribute("signUpService");
-        passwordEncoder = (PasswordEncoder) config.getServletContext().getAttribute("passwordEncoder");
-        generalValidator = (GeneralValidator) config.getServletContext().getAttribute("generalValidator");
+        signUpService = ComponentScanner.get(config, "signUpService", SignUpService.class);
+        passwordEncoder = ComponentScanner.get(config, "passwordEncoder", PasswordEncoder.class);
+        generalValidator = ComponentScanner.get(config, "generalValidator", GeneralValidator.class);
     }
 
     @Override

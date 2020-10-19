@@ -1,5 +1,7 @@
 package servlets_jdbc.servlets;
 
+import servlets_jdbc.listeners.ComponentScanner;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -15,7 +17,7 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        cookieProperties = (Properties) config.getServletContext().getAttribute("cookieProperties");
+        cookieProperties = ComponentScanner.get(config, "cookieProperties", Properties.class);
     }
 
     @Override

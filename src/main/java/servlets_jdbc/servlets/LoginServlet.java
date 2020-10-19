@@ -1,5 +1,6 @@
 package servlets_jdbc.servlets;
 
+import servlets_jdbc.listeners.ComponentScanner;
 import servlets_jdbc.models.Person;
 import servlets_jdbc.services.LoginService;
 import servlets_jdbc.services.security.GeneralValidator;
@@ -18,17 +19,16 @@ import java.util.Optional;
 import java.util.Properties;
 
 public class LoginServlet extends HttpServlet {
+
     private LoginService loginService;
-
     private GeneralValidator generalValidator;
-
     private Properties cookieProperties;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        loginService = (LoginService) config.getServletContext().getAttribute("loginService");
-        generalValidator = (GeneralValidator) config.getServletContext().getAttribute("generalValidator");
-        cookieProperties = (Properties) config.getServletContext().getAttribute("cookieProperties");
+        loginService = ComponentScanner.get(config, "loginService", LoginService.class);
+        generalValidator = ComponentScanner.get(config, "generalValidator", GeneralValidator.class);
+        cookieProperties = ComponentScanner.get(config, "cookieProperties", Properties.class);
     }
 
     @Override
