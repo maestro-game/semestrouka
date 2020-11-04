@@ -1,14 +1,27 @@
 <#include "base.ftl">
 <#include "macro.ftl">
 <@html "films">
-    <div class="film">
+    <div class="search">
+        <@_form class="search" action="filterFilms"
+        fields=["img#url", "genres#text", "actors#text", "director#text"]
+        btnValue="Search films" />
+    </div>
+    <div class="films">
         <#list films as film>
-            <#assign description = film.getDescription()>
-            <img class="film__poster" src="${description.getImg()}" alt="film poster"/>
-            <p class="film__filmname">${film.getName()}</p>
-            <#list description.getGenres() as genre>
-                <p class="film__genre">${genre}</p>
-            </#list>
+            <div class="film">
+                <a href="/film?filmId=${film.getId()}">
+                    <#assign description = film.getDescription()>
+                    <img class="film__poster" src="${description.getImg()}" alt="film poster"/>
+                    <p class="film__filmname">${film.getName()}</p>
+                    <#list description.getGenres() as genre>
+                        <p class="film__genre">${genre}</p>
+                    </#list>
+                    <#list description.getActors() as actor>
+                        <p class="film__actor">${actor}</p>
+                    </#list>
+                    <p class="film__director">${film.getDirector()}</p>
+                </a>
+            </div>
         </#list>
         <@_roleCheck "ADMIN">
             <@_form class="film" action="films"

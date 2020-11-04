@@ -28,14 +28,14 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         HttpSession session = httpRequest.getSession();
 
         Object user;
 
-//                FIXME: for anonymous users cookie rewrites with each request
         if ((user = session.getAttribute("user")) == null
                 || Objects.equals(((PersonDto) user).getRole(), Role.GUEST)) {
 

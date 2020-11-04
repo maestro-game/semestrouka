@@ -55,6 +55,16 @@
     </servlet>
 
     <servlet>
+        <servlet-name>ConcreteFilmServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.ConcreteFilmServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>FilterFilmsServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.FilterFilmsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>freemarker</servlet-name>
         <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
 
@@ -164,6 +174,16 @@
     <servlet-mapping>
         <servlet-name>MainFilmsServlet</servlet-name>
         <url-pattern>/films</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ConcreteFilmServlet</servlet-name>
+        <url-pattern>/film</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>FilterFilmsServlet</servlet-name>
+        <url-pattern>/filterFilms</url-pattern>
     </servlet-mapping>
 
     <!--    <resource-ref>-->

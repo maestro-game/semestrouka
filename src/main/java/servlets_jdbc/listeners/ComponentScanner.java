@@ -41,6 +41,7 @@ public class ComponentScanner implements ServletContextListener {
         PasswordEncoder passwordEncoder = new PasswordEncoderBCryptImpl();
         GeneralValidator generalValidator = new GeneralValidator();
         SecurityChecker securityChecker = new SecurityChecker();
+        FilterValidator filterValidator = new FilterValidator();
 
         sce.getServletContext().setAttribute("jdbcUtil", jdbcUtil);
         sce.getServletContext().setAttribute("executorService", executorService);
@@ -56,6 +57,7 @@ public class ComponentScanner implements ServletContextListener {
         UserRepository userRepository = new UserRepositoryImpl(jdbcUtil);
         CookieRepository cookieRepository = new CookieRepositoryImpl(jdbcUtil);
         FilmRepository filmRepository = new FilmRepositoryImpl(jdbcUtil);
+        ReviewRepository reviewRepository = new ReviewRepositoryImpl(jdbcUtil);
 
 //        ==== /REPOSITORIES ====
 
@@ -64,11 +66,13 @@ public class ComponentScanner implements ServletContextListener {
 
         UserService userService = new UserServiceImpl(userRepository, cookieRepository);
         LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository, cookieRepository);
+        LogoutService logoutService = new LogoutServiceImpl(cookieRepository);
         SignUpService signUpService = new SignUpServiceImpl(userRepository);
-        FilmService filmService = new FilmServiceImpl(filmRepository);
+        FilmService filmService = new FilmServiceImpl(filmRepository, reviewRepository, filterValidator);
 
         sce.getServletContext().setAttribute("userService", userService);
         sce.getServletContext().setAttribute("loginService", loginService);
+        sce.getServletContext().setAttribute("logoutService", logoutService);
         sce.getServletContext().setAttribute("signUpService", signUpService);
         sce.getServletContext().setAttribute("filmService", filmService);
 

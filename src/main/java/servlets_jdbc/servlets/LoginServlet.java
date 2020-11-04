@@ -54,11 +54,15 @@ public class LoginServlet extends HttpServlet {
                     .role(Enum.valueOf(Role.class, "USER"))
                     .build();
 
-            Optional<String> cookieCandidate = loginService.signIn(person);
+            boolean rememberMe = resultMap.get("rememberMe") != null;
 
+            Optional<String> cookieCandidate = loginService.signIn(person);
 
             if (cookieCandidate.isPresent()) {
                 Cookie cookie = new Cookie(cookieProperties.getProperty("cookies.userId"), cookieCandidate.get());
+                if (rememberMe) {
+                    cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
+                }
                 resp.addCookie(cookie);
                 resp.sendRedirect("/profile");
             } else {

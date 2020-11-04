@@ -6,7 +6,8 @@ import servlets_jdbc.models.rowmappers.RowMapper;
 public class CookieRepositoryImpl implements CookieRepository {
     private final String Q_SELECT_ALL = "SELECT * FROM cookies;";
     private final String Q_SELECT_ONE_BY_VALUE = "SELECT * FROM cookies WHERE value = ? ;";
-    private final String Q_SAVE = "INSERT INTO cookies (value, username) VALUES (?, ?)";
+    private final String Q_SAVE = "INSERT INTO cookies (value, username) VALUES (?, ?) ;";
+    private final String Q_DELETE_BY_VALUE = "DELETE FROM cookies WHERE value = ? ;";
 
     private final JdbcUtil jdbcUtil;
 
@@ -29,5 +30,10 @@ public class CookieRepositoryImpl implements CookieRepository {
     @Override
     public String findUsernameByValue(String value) throws NullPointerException {
         return jdbcUtil.findOne(Q_SELECT_ONE_BY_VALUE, rowMapper, value).getUser();
+    }
+
+    @Override
+    public void delete(String value) {
+        jdbcUtil.delete(Q_DELETE_BY_VALUE, value);
     }
 }

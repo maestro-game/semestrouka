@@ -1,6 +1,7 @@
 package servlets_jdbc.servlets;
 
 import servlets_jdbc.listeners.ComponentScanner;
+import servlets_jdbc.services.LogoutService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,10 +15,12 @@ import java.util.Properties;
 public class LogoutServlet extends HttpServlet {
 
     private Properties cookieProperties;
+    private LogoutService logoutService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         cookieProperties = ComponentScanner.get(config, "cookieProperties", Properties.class);
+        logoutService = ComponentScanner.get(config, "logoutService", LogoutService.class);
     }
 
     @Override
@@ -27,6 +30,11 @@ public class LogoutServlet extends HttpServlet {
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(cookieProperties.getProperty("cookies.userId"))) {
+
+                System.out.println(cookie.getValue());
+
+                logoutService.logout(cookie.getValue());
+
                 cookie.setValue("");
                 cookie.setPath("/");
                 cookie.setMaxAge(0);

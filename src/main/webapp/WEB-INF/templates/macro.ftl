@@ -37,6 +37,14 @@
                 <#case "email">
                     required
                     <#break>
+                <#case "range">
+                    <#if fieldName == "mark">
+                        min="-1"
+                        max="1"
+                    <#else>
+                        min="1"
+                        max="5"
+                    </#if>
                     </#switch>
             />
         </#list>

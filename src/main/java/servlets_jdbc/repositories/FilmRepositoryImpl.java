@@ -17,6 +17,11 @@ public class FilmRepositoryImpl implements FilmRepository {
     //  language=sql
     private static final String Q_SAVE_FILM = "INSERT INTO films (name, description) " +
             "VALUES (?, ?::jsonb) ;";
+    //  language=sql
+    private static final String Q_FIND_BY_ID = "SELECT * FROM films WHERE id = ? LIMIT 1;";
+    //  language=sql
+    private static final String Q_FIND_ALL_FILMS_BY_DESCRIPTION = "SELECT * FROM films" +
+            " WHERE description @> ? ;";
 
     private final JdbcUtil jdbcUtil;
     private final RowMapper<Film> filmRowMapper = resultSet ->
@@ -25,8 +30,8 @@ public class FilmRepositoryImpl implements FilmRepository {
             return new Film(resultSet.getString("name"),
                     new ObjectMapper().readValue(
                             resultSet.getString("description"),
-                            Film.Description.class)
-            );
+                            Film.Description.class),
+                    resultSet.getLong("id"));
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
@@ -42,6 +47,12 @@ public class FilmRepositoryImpl implements FilmRepository {
     }
 
     @Override
+    public Optional<List<Film>> findAllFilms(Film.Description description) throws JsonProcessingException {
+        return Optional.of(jdbcUtil.findAll(Q_FIND_ALL_FILMS_BY_DESCRIPTION, filmRowMapper,
+                new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(description)));
+    }
+
+    @Override
     public Optional<Film> saveFilm(Film film) {
         Optional<Film> res = Optional.of(film);
         try {
@@ -54,5 +65,10 @@ public class FilmRepositoryImpl implements FilmRepository {
             throw new IllegalArgumentException(e);
         }
         return res;
+    }
+
+    @Override
+    public Optional<Film> findFilmById(Long filmId) {
+        return Optional.of(jdbcUtil.findOne(Q_FIND_BY_ID, filmRowMapper, filmId));
     }
 }

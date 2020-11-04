@@ -42,12 +42,26 @@ public class MainFilmsServlet extends HttpServlet {
                     "newFilm",
                     filmService.addFilm(
                             new Film(req.getParameter("name"),
-                                    new Film.Description(req.getParameter("imgSrc"),
-                                            List.of(req.getParameter("genres").split("\\s"))))
+                                    new Film.Description(
+                                            req.getParameter("imgSrc"),
+                                            Integer.parseInt(req.getParameter("year")),
+                                            splitBy(req.getParameter("genres")),
+                                            splitBy(req.getParameter("actors")),
+                                            splitBy(req.getParameter("awards"))
+                                    )
+                            )
                     )
             );
         }
 
         doGet(req, resp);
+    }
+
+    private List<String> splitBy(String str, String regex) {
+        return List.of(str.split(regex));
+    }
+
+    private List<String> splitBy(String str) {
+        return splitBy(str, "\\s");
     }
 }

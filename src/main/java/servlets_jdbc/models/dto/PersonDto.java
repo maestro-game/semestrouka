@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 public class PersonDto {
     private String username;
-
     private Role role;
 
     public PersonDto() {
@@ -31,12 +30,12 @@ public class PersonDto {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public Role getRole() {
         return role;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setRole(Role role) {

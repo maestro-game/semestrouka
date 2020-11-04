@@ -6,4 +6,6 @@ public interface CookieRepository {
     int save(CookieValue cookieValue);
 
     String findUsernameByValue(String value);
+
+    void delete(String value);
 }
