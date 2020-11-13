@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ConcreteFilmServlet extends HttpServlet {
+public class FilmServlet extends HttpServlet {
 
     private FilmService filmService;
 
@@ -45,23 +45,17 @@ public class ConcreteFilmServlet extends HttpServlet {
         req.setAttribute("comments", CommentDto.from(comments));
 
         List<Mark> marks = filmService.getMarks(filmId);
-        req.setAttribute("avgMark", avgMark(marks));
+        req.setAttribute("avgMark", Mark.avgMark(marks));
 
         List<Review> reviews = filmService.getReviews(filmId);
         Map<Review, Double> reviewsWithAvgRating =
-                reviews.stream().collect(Collectors.toMap(Function.identity(), this::avgRating));
+                reviews.stream().collect(Collectors.toMap(Function.identity(), Review::avgRating));
         req.setAttribute("reviews", reviewsWithAvgRating);
 
         req.getRequestDispatcher("film.ftl").forward(req, resp);
     }
 
-    private Double avgRating(Review review) {
-        return review.getRating().toInt() * 1.0 / review.getVoices();
-    }
 
-    private Double avgMark(List<Mark> marks) {
-        return marks.isEmpty() ? null : marks.stream().map(Mark::toInt).reduce(Integer::sum).get() * 1.0 / marks.size();
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -80,7 +74,7 @@ public class ConcreteFilmServlet extends HttpServlet {
             res = filmService.addComment(reviewForm);
         } else if (reviewForm.isMark()) {
             filmService.addMark(reviewForm);
-            res = avgMark(filmService.getMarks(reviewForm.getFilmId()));
+            res = Mark.avgMark(filmService.getMarks(reviewForm.getFilmId()));
         } else if (reviewForm.isReview()) {
             res = filmService.addReview(reviewForm);
         } else if (reviewForm.isRating()) {
@@ -89,7 +83,7 @@ public class ConcreteFilmServlet extends HttpServlet {
                     reviewForm.getRating().toInt(),
                     ((PersonDto) req.getAttribute("user")).getUsername()
             );
-            res = avgRating(filmService.getReview(reviewForm.getId()));
+            res = Review.avgRating(filmService.getReview(reviewForm.getId()));
         } else {
             throw new IllegalArgumentException("Review form is incorrect");
         }

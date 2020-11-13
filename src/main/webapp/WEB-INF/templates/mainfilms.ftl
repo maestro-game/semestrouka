@@ -1,6 +1,6 @@
 <#include "base.ftl">
 <#include "macro.ftl">
-<@html "films">
+<@html "films" true>
     <div class="search">
         <@_form class="search" action="filterFilms"
         fields=["img#url", "genres#text", "actors#text", "director#text"]

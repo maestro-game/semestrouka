@@ -1,17 +1,17 @@
 <#include "base.ftl">
 <#include "macro.ftl">
-<@html "film">
-    <@_roleCheck "USER">
-        <@_errors "film" />
-        <div class="content content__film">
-            <div class="film">
-                <#assign description = film.getDescription()>
-                <img class="film__poster" src="${description.getImg()}" alt="film poster"/>
-                <p class="film__filename">${film.getName()}</p>
-                <#list description.getGenres() as genre>
-                    <p class="film__genre">${genre}</p>
-                </#list>
-            </div>
+<@html "film" true>
+<#--    <@_roleCheck "USER">-->
+    <@_errors "film" />
+    <div class="content content__film">
+        <div class="film">
+            <#assign description = film.getDescription()>
+            <img class="film__poster" src="${description.getImg()}" alt="film poster"/>
+            <p class="film__filename">${film.getName()}</p>
+            <#list description.getGenres() as genre>
+                <p class="film__genre">${genre}</p>
+            </#list>
+        </div>
             <div class="comments">
                 <h3>Comments:</h3>
                 <div class="comments__shorten">
@@ -75,5 +75,5 @@
                 </div>
             </div>
         </div>
-    </@>
+<#--    </@>-->
 </@>

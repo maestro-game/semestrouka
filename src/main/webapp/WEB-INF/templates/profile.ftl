@@ -4,6 +4,9 @@
     <div class="profile">
         <@_roleCheck role="GUEST" inclusion=false errorMessage=true>
             <h1>${user.username}</h1>
+            <#list user.getPersonInfo().getGenres() as genre >
+                <p>${genre}</p>
+            </#list>
         </@>
     </div>
 </@>

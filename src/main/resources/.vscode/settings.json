@@ -1,6 +1,0 @@
-{
-    "compile-hero.disable-compile-files-on-did-save-code": false,
-    "compile-hero.scss-output-directory": "../../css/dist",
-    "compile-hero.javascript-output-directory": "../../js/dist",
-    "compile-hero.generate-minified-javascript": true
-}

@@ -16,7 +16,7 @@ import java.util.List;
 
 import static servlets_jdbc.services.security.models.Role.ADMIN;
 
-public class MainFilmsServlet extends HttpServlet {
+public class FilmsServlet extends HttpServlet {
 
     private FilmService filmService;
     private SecurityChecker securityChecker;

@@ -58,7 +58,8 @@ public class AuthFilter implements Filter {
                             personCandidate = userService.getPersonByCookie(cookie.getValue());
 
                             personCandidate.ifPresent(person ->
-                                    session.setAttribute("user", PersonDto.from(person)));
+                                    session.setAttribute("user",
+                                            PersonDto.from(person, userService.getGenres(person.getUsername()))));
                         } catch (AuthException e) {
                             hasUserId = false;
                         }

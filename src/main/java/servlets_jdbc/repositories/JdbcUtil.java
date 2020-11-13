@@ -1,5 +1,6 @@
 package servlets_jdbc.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class JdbcUtil implements Closeable {
 
@@ -43,13 +44,12 @@ public class JdbcUtil implements Closeable {
         }
     }
 
-    <T> Long save(final String sql, T model,
-                  BiFunction<PreparedStatement, T, PreparedStatement> customWrapper) {
+    Long save(final String sql, Function<PreparedStatement, PreparedStatement> customWrapper) {
         int rows;
         Long res;
 
         try (Connection conn = connect();
-             PreparedStatement stmt = customWrapper.apply(conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS), model)) {
+             PreparedStatement stmt = customWrapper.apply(conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))) {
 
             rows = stmt.executeUpdate();
 
@@ -135,7 +135,7 @@ public class JdbcUtil implements Closeable {
                 }
 
             }
-        } catch (SQLException e) {
+        } catch (SQLException | JsonProcessingException e) {
             logger.error(e.getMessage());
             throw new IllegalArgumentException(e);
         }
@@ -157,7 +157,7 @@ public class JdbcUtil implements Closeable {
                 }
 
             }
-        } catch (SQLException e) {
+        } catch (SQLException | JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         }
         logger.info(Arrays.toString(res.toArray()));
@@ -174,6 +174,27 @@ public class JdbcUtil implements Closeable {
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
                     res = rowMapper.mapRow(resultSet);
+                }
+            }
+        } catch (SQLException | JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+        return res;
+
+    }
+
+
+    String findOne(final String sql, Object... args) {
+
+        String res = null;
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = wrapObjects(conn.prepareStatement(sql), args)) {
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    res = resultSet.getString(1);
                 }
             }
         } catch (SQLException e) {

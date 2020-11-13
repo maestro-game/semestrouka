@@ -105,6 +105,10 @@ public class Review {
                 '}';
     }
 
+    public static Double avgRating(Review review) {
+        return review.getRating().toInt() * 1.0 / review.getVoices();
+    }
+
     public static class Builder {
         private Long id = null;
         private String personUsername;

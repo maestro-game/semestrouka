@@ -71,12 +71,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Comment saveComment(Comment comment) {
-        comment.setFilmId(jdbcUtil.save(Q_SAVE_COMMENT, comment,
-                (stmt, form) -> {
+        comment.setFilmId(jdbcUtil.save(Q_SAVE_COMMENT,
+                (stmt) -> {
                     try {
-                        stmt.setString(1, form.getPersonUsername());
-                        stmt.setLong(2, form.getFilmId());
-                        stmt.setString(3, form.getReviewText());
+                        stmt.setString(1, comment.getPersonUsername());
+                        stmt.setLong(2, comment.getFilmId());
+                        stmt.setString(3, comment.getReviewText());
                     } catch (SQLException e) {
                         throw new IllegalArgumentException(e);
                     }
@@ -101,13 +101,13 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Review saveReview(Review review) {
-        review.setId(jdbcUtil.save(Q_SAVE_REVIEW, review,
-                (stmt, form) -> {
+        review.setId(jdbcUtil.save(Q_SAVE_REVIEW,
+                (stmt) -> {
                     try {
-                        stmt.setString(1, form.getPersonUsername());
-                        stmt.setLong(2, form.getFilmId());
-                        stmt.setString(3, form.getReviewText());
-                        stmt.setInt(4, form.getMark().toInt());
+                        stmt.setString(1, review.getPersonUsername());
+                        stmt.setLong(2, review.getFilmId());
+                        stmt.setString(3, review.getReviewText());
+                        stmt.setInt(4, review.getMark().toInt());
                     } catch (SQLException e) {
                         throw new IllegalArgumentException(e);
                     }

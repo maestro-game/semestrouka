@@ -1,6 +1,6 @@
 <#include "base.ftl">
 <#include "macro.ftl">
-<@html "login">
+<@html "login" true>
     <div class="login">
         <@_roleCheck "GUEST">
             <@_errors class="login" />

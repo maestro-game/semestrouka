@@ -2,10 +2,12 @@ package servlets_jdbc.services;
 
 import servlets_jdbc.models.Person;
 import servlets_jdbc.models.dto.PersonDto;
+import servlets_jdbc.models.forms.ProfileForm;
 import servlets_jdbc.repositories.CookieRepository;
 import servlets_jdbc.repositories.UserRepository;
 
 import javax.security.auth.message.AuthException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +34,20 @@ public class UserServiceImpl implements UserService {
         } catch (NullPointerException e) {
             throw new AuthException("Not authorized");
         }
+    }
+
+    @Override
+    public ProfileForm updateInfo(ProfileForm userInfo) {
+        return userRepository.updateInfo(userInfo, false);
+    }
+
+    @Override
+    public List<String> getGenres(String username) {
+        return userRepository.getGenresByUsername(username).orElse(Collections.emptyList());
+    }
+
+    @Override
+    public ProfileForm deleteInfo(ProfileForm userInfo) {
+        return userRepository.updateInfo(userInfo, true);
     }
 }
