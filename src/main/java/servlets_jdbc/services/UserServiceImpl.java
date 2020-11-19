@@ -2,7 +2,7 @@ package servlets_jdbc.services;
 
 import servlets_jdbc.models.Person;
 import servlets_jdbc.models.dto.PersonDto;
-import servlets_jdbc.models.forms.ProfileForm;
+import servlets_jdbc.models.forms.ProfileInfo;
 import servlets_jdbc.repositories.CookieRepository;
 import servlets_jdbc.repositories.UserRepository;
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileForm updateInfo(ProfileForm userInfo) {
+    public ProfileInfo updateInfo(ProfileInfo userInfo) {
         return userRepository.updateInfo(userInfo, false);
     }
 
@@ -47,7 +47,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileForm deleteInfo(ProfileForm userInfo) {
+    public ProfileInfo deleteInfo(ProfileInfo userInfo) {
         return userRepository.updateInfo(userInfo, true);
+    }
+
+    @Override
+    public ProfileInfo getInfo(String username) {
+        Person person = userRepository.findOneByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("No such user")
+        );
+        return ProfileInfo.from(person, userRepository.getGenresByUsername(username).orElse(Collections.emptyList()));
     }
 }

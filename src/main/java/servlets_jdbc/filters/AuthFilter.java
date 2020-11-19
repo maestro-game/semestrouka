@@ -1,8 +1,8 @@
 package servlets_jdbc.filters;
 
 import servlets_jdbc.models.Person;
-import servlets_jdbc.models.dto.PersonDto;
 import servlets_jdbc.services.UserService;
+import servlets_jdbc.services.security.models.AuthDto;
 import servlets_jdbc.services.security.models.Role;
 
 import javax.security.auth.message.AuthException;
@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
@@ -37,7 +38,7 @@ public class AuthFilter implements Filter {
         Object user;
 
         if ((user = session.getAttribute("user")) == null
-                || Objects.equals(((PersonDto) user).getRole(), Role.GUEST)) {
+                || Objects.equals(((AuthDto) user).getRole(), Role.GUEST)) {
 
             Cookie[] cookies;
 
@@ -59,7 +60,7 @@ public class AuthFilter implements Filter {
 
                             personCandidate.ifPresent(person ->
                                     session.setAttribute("user",
-                                            PersonDto.from(person, userService.getGenres(person.getUsername()))));
+                                            AuthDto.from(person, userService.getGenres(person.getUsername()))));
                         } catch (AuthException e) {
                             hasUserId = false;
                         }
@@ -69,10 +70,10 @@ public class AuthFilter implements Filter {
                 }
 
                 if (!hasUserId) {
-                    session.setAttribute("user", PersonDto.from(
+                    session.setAttribute("user", AuthDto.from(
                             Person.builder()
                                     .name("Anonymous")
-                                    .build()));
+                                    .build(), Collections.emptyList()));
                 }
             }
         }

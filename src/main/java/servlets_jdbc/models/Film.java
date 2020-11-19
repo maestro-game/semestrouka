@@ -54,7 +54,7 @@ public class Film {
     @JsonDeserialize(using = FilmDescriptionDeserializer.class)
     public static class Description {
         private String img;
-        private Integer year;
+        private Integer year = null;
         private List<String> genres;
         private List<String> awards;
         private List<String> actors;
@@ -65,6 +65,13 @@ public class Film {
         public Description(String img, Integer year,
                            List<String> genres, List<String> actors, List<String> awards) {
             this.img = img;
+            this.year = year;
+            this.genres = genres;
+            this.actors = actors;
+            this.awards = awards;
+        }
+
+        public Description(Integer year, List<String> genres, List<String> actors, List<String> awards) {
             this.year = year;
             this.genres = genres;
             this.actors = actors;
@@ -127,6 +134,17 @@ public class Film {
         @Override
         public int hashCode() {
             return Objects.hash(getImg(), getYear(), getGenres(), getAwards(), getActors());
+        }
+
+        @Override
+        public String toString() {
+            return "Description{" +
+                    "img='" + img + '\'' +
+                    ", year=" + year +
+                    ", genres=" + genres +
+                    ", awards=" + awards +
+                    ", actors=" + actors +
+                    '}';
         }
     }
 }

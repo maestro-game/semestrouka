@@ -1,5 +1,6 @@
 package servlets_jdbc.repositories;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -21,7 +22,7 @@ public class FilmRepositoryImpl implements FilmRepository {
     private static final String Q_FIND_BY_ID = "SELECT * FROM films WHERE id = ? LIMIT 1;";
     //  language=sql
     private static final String Q_FIND_ALL_FILMS_BY_DESCRIPTION = "SELECT * FROM films" +
-            " WHERE description @> ? ;";
+            " WHERE description @> ?::jsonb ;";
 
     private final JdbcUtil jdbcUtil;
     private final RowMapper<Film> filmRowMapper = resultSet ->
@@ -49,7 +50,10 @@ public class FilmRepositoryImpl implements FilmRepository {
     @Override
     public Optional<List<Film>> findAllFilms(Film.Description description) throws JsonProcessingException {
         return Optional.of(jdbcUtil.findAll(Q_FIND_ALL_FILMS_BY_DESCRIPTION, filmRowMapper,
-                new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(description)));
+                new ObjectMapper()
+                        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                        .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+                        .writerWithDefaultPrettyPrinter().writeValueAsString(description)));
     }
 
     @Override

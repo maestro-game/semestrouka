@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/files/css/dist/main.min.css">
     <#if js>
-        <script src="/files/js/dist/${page}.prod.js"></script>
+        <script src="/files/source/js/${page}.js"></script>
     </#if>
     <title>${page?capitalize}</title>
 </head>

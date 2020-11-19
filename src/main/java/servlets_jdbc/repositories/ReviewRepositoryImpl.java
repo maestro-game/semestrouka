@@ -168,7 +168,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         };
 
 //      Check if review was rated by this user
-//        FIXME: fix :(
 //      language=sql
         if (jdbcUtil.findOne("SELECT * FROM rating_review WHERE person_username = ? AND review_id = ? ;",
                 resultSet -> {

@@ -1,12 +1,11 @@
 package servlets_jdbc.repositories;
 
 import servlets_jdbc.models.Person;
-import servlets_jdbc.models.forms.ProfileForm;
+import servlets_jdbc.models.forms.ProfileInfo;
 import servlets_jdbc.models.rowmappers.RowMapper;
 import servlets_jdbc.services.security.models.Role;
 
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
                     "   THEN '{\"genres\":[' || ? || ']}'::jsonb" +
                     "   ELSE jsonb_set(interests, array['genres'], (interests->'genres')::jsonb || ('[' || ? || ']')::jsonb, true) " +
                     "END) WHERE username = ? ;";
-    private static final String Q_INSERT_INFO = "UPDATE persons SET name = ? AND surname = ? AND phone = ? WHERE username = ? ;";
+    private static final String Q_UPDATE_INFO = "UPDATE persons SET name = ? AND surname = ? AND phone = ? WHERE username = ? ;";
     private static final String Q_SELECT_ALL = "SELECT * FROM persons;";
     private static final String Q_SELECT_ONE_BY_USERNAME = "SELECT * FROM persons WHERE username = ? ;";
     private static final String Q_SAVE = "INSERT INTO persons (username, password, email, name, surname, phone, role) " +
@@ -29,6 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String Q_DELETE_GENRES =
             "UPDATE persons SET interests = " +
                     "jsonb_set(interests, '{genres}', (interests->'genres') - ?) WHERE username = ? ;";
+    private static final String Q_SET_GENRES_EMPTY = "UPDATE persons SET interests = '{\"genres\": []}' WHERE username = ?;";
     private final JdbcUtil jdbcUtil;
 
     private final RowMapper<Person> rowMapper =
@@ -66,46 +66,49 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public ProfileForm updateInfo(ProfileForm userInfo, boolean toDelete) {
+    public ProfileInfo updateInfo(ProfileInfo userInfo, boolean toDelete) {
         if (userInfo.containGenres()) {
-            updateGenres(userInfo, toDelete);
+            updateGenres(userInfo.getGenres(), userInfo.getUsername(), toDelete);
         }
-        jdbcUtil.save(Q_INSERT_INFO,
-                stmt -> {
-                    try {
-                        stmt.setString(1, userInfo.getName());
-                        stmt.setString(2, userInfo.getSurname());
-                        stmt.setString(3, userInfo.getPhone());
-                    } catch (SQLException e) {
-                        throw new IllegalArgumentException(e);
-                    }
-                    return stmt;
-                }
-        );
+        jdbcUtil.update(Q_UPDATE_INFO,
+                userInfo.getName(), userInfo.getSurname(), userInfo.getPhone(),
+                userInfo.getUsername());
         return userInfo;
     }
 
     @Override
     public Optional<List<String>> getGenresByUsername(String username) {
-        return Optional.of(List.of(jdbcUtil.findOne(Q_FIND_GENRES_BY_USERNAME, username).replace("[", "").replace("]", "").replaceAll("\"", "").split(", ")));
+        String genres;
+        if ((genres = jdbcUtil.findOne(Q_FIND_GENRES_BY_USERNAME, username)) != null) {
+            return Optional.of(List.of(genres
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replaceAll("\"", "").split(", ")));
+        } else {
+            updateGenres(Collections.emptyList(), username, true);
+            return Optional.empty();
+        }
     }
 
-    private void updateGenres(ProfileForm userInfo, Boolean toDelete) {
-        String[] genresArray = (String[]) userInfo.getGenres().toArray();
-        if (toDelete) {
-            for (String genre : genresArray) {
-                jdbcUtil.update(Q_DELETE_GENRES, genre, userInfo.getUsername());
+    private void updateGenres(List<String> genresList, String username, Boolean toDelete) {
+        if (!genresList.isEmpty()) {
+            if (toDelete) {
+                for (String genre : genresList) {
+                    jdbcUtil.update(Q_DELETE_GENRES, genre, username);
+                }
+            } else {
+                String genres = genresList.size() > 1
+                        ? quoteWrap(genresList).collect(Collectors.joining(", "))
+                        : genresList.get(0);
+                jdbcUtil.update(Q_UPDATE_GENRES, genres, genres, username);
             }
         } else {
-            String genres = genresArray.length > 1
-                    ? quoteWrap(genresArray).collect(Collectors.joining(", "))
-                    : genresArray[0];
-            jdbcUtil.update(Q_UPDATE_GENRES, genres, genres, userInfo.getUsername());
+            System.out.println("HERE");
+            jdbcUtil.update(Q_SET_GENRES_EMPTY, username);
         }
-
     }
 
-    private Stream<String> quoteWrap(String... string) {
-        return Arrays.stream(string).map((s) -> "\"" + s + "\"");
+    private Stream<String> quoteWrap(List<String> string) {
+        return string.stream().map((s) -> "\"" + s + "\"");
     }
 }

@@ -3,16 +3,16 @@ package servlets_jdbc.models.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import servlets_jdbc.models.Actor;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-public class ActorDescriptionDeserializer extends StdDeserializer<Actor.Description> {
+public class ActorDescriptionDeserializer extends StdDeserializer<Actor.Description> implements DescriptionDeserializer {
     protected ActorDescriptionDeserializer(Class<?> vc) {
         super(vc);
     }
@@ -37,28 +37,5 @@ public class ActorDescriptionDeserializer extends StdDeserializer<Actor.Descript
         return new Actor.Description(img, yearB, yearD, town, isDirector, genresList, awardsList);
     }
 
-    private List<String> nodeToListOfStrings(JsonNode givenNode, String requiredField) {
-        JsonNode node;
-        String nodeText;
-        String[] textArray;
-        if ((node = givenNode.get(requiredField)) != null) {
-            if (node.isArray()) {
-                return new ObjectMapper().convertValue(node, ArrayList.class);
-            } else if (node.isTextual() && !(nodeText = node.asText()).isBlank()) {
-                System.out.println("is textual and not blank");
-                if ((textArray = nodeText.split("\\s")).length > 1) {
-                    System.out.println("length is more than 1");
-                    return Arrays.asList(textArray.clone());
-                } else {
-                    return List.of(nodeText);
-                }
-            } else {
-                System.out.println("HERE");
-                return Collections.emptyList();
-            }
-        } else {
-            return Collections.emptyList();
-        }
-    }
 
 }

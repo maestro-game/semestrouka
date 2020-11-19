@@ -1,0 +1,8 @@
+{
+    "files.watcherExclude": {
+        "**/target": true
+    },
+    "compile-hero.generate-minified-javascript": true,
+    "compile-hero.javascript-output-directory": "../../js/dist",
+    "compile-hero.generate-minified-css": true
+}

@@ -1,23 +1,32 @@
 package servlets_jdbc.models.forms;
 
+import servlets_jdbc.models.Person;
+
 import java.util.List;
 
-public class ProfileForm {
+public class ProfileInfo {
     private String username;
+    private String email;
     private String name;
     private String surname;
     private String phone;
     private List<String> genres;
 
-    public ProfileForm() {
+    public ProfileInfo() {
     }
 
-    public ProfileForm(String username, String name, String surname, String phone, List<String> genres) {
+    public ProfileInfo(String username, String email, String name, String surname, String phone, List<String> genres) {
         this.username = username;
+        this.email = email;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.genres = genres;
+    }
+
+    public static ProfileInfo from(Person person, List<String> genres) {
+        return new ProfileInfo(person.getUsername(), person.getEmail(),
+                person.getName(), person.getSurname(), person.getPhone(), genres);
     }
 
     public String getUsername() {
@@ -62,5 +71,13 @@ public class ProfileForm {
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

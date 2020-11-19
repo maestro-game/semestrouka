@@ -29,7 +29,6 @@ public enum Mark {
             Arrays.stream(Mark.values()).collect(Collectors.toMap(Mark::toInt, Function.identity()));
 
     public static Mark from(final Integer value) {
-//        FIXME: save null to database or save certain specific value
         return reverseLookup.getOrDefault(value, null);
     }
 

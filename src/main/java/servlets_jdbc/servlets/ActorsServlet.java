@@ -44,17 +44,6 @@ public class ActorsServlet extends HttpServlet {
         Map<String, String[]> map;
 
         if (securityChecker.checkRole(req, ADMIN)) {
-            map = new HashMap<>(req.getParameterMap());
-            map.remove("fullname");
-            mapper = new ObjectMapper();
-            System.out.println(mapper.writeValueAsString(
-                    Map.ofEntries(
-                            map.entrySet().stream()
-                                    .map((e) -> new AbstractMap.SimpleEntry<>(
-                                            e.getKey(),
-                                            Array.get(e.getValue(), 0)))
-                                    .distinct().toArray(Map.Entry[]::new))));
-
             req.setAttribute(
                     "newActor",
                     actorService.addActor(Actor.builder()
@@ -70,7 +59,7 @@ public class ActorsServlet extends HttpServlet {
                                             Actor.Description.class)).build())
             );
         }
-// TODO: write back json
+
         doGet(req, resp);
     }
 }

@@ -36,7 +36,6 @@ public class FilmsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         if (securityChecker.checkRole(req, ADMIN)) {
             req.setAttribute(
                     "newFilm",

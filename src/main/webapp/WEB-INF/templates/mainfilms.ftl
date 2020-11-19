@@ -19,7 +19,6 @@
                     <#list description.getActors() as actor>
                         <p class="film__actor">${actor}</p>
                     </#list>
-                    <p class="film__director">${film.getDirector()}</p>
                 </a>
             </div>
         </#list>
