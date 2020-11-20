@@ -1,6 +1,6 @@
 <#include "base.ftl">
 <#include "macro.ftl">
-<@html "films">
+<@html "films" true>
     <div class="search">
         <@_form class="search" action="filterFilms"
         fields=["img#url", "genres#text", "actors#text", "director#text"]
@@ -19,7 +19,6 @@
                     <#list description.getActors() as actor>
                         <p class="film__actor">${actor}</p>
                     </#list>
-                    <p class="film__director">${film.getDirector()}</p>
                 </a>
             </div>
         </#list>

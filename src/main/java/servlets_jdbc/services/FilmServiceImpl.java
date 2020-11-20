@@ -18,14 +18,11 @@ public class FilmServiceImpl implements FilmService {
 
     private final ReviewRepository reviewRepository;
 
-    private final FilterValidator filterValidator;
-
     private Film.Description description;
 
-    public FilmServiceImpl(FilmRepository filmRepository, ReviewRepository reviewRepository, FilterValidator filterValidator) {
+    public FilmServiceImpl(FilmRepository filmRepository, ReviewRepository reviewRepository) {
         this.filmRepository = filmRepository;
         this.reviewRepository = reviewRepository;
-        this.filterValidator = filterValidator;
     }
 
     @Override
@@ -39,14 +36,6 @@ public class FilmServiceImpl implements FilmService {
             throw new IllegalArgumentException(e);
         }
     }
-
-//    public List<Film> getFilms(Map<String, String[]> filters) {
-//        return filterValidator.validate(filters)
-//                .then(filmRepository.findAllFilms(filters).orElse(Collections.emptyList()))
-//                .orElseThrow(
-//                        () -> new IllegalArgumentException("Wrong filter parameters")
-//                );
-//    }
 
     @Override
     public Film addFilm(Film film) {

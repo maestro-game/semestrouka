@@ -16,7 +16,7 @@ import java.util.List;
 
 import static servlets_jdbc.services.security.models.Role.ADMIN;
 
-public class MainFilmsServlet extends HttpServlet {
+public class FilmsServlet extends HttpServlet {
 
     private FilmService filmService;
     private SecurityChecker securityChecker;
@@ -36,7 +36,6 @@ public class MainFilmsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         if (securityChecker.checkRole(req, ADMIN)) {
             req.setAttribute(
                     "newFilm",

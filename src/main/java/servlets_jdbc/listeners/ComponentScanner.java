@@ -1,5 +1,6 @@
 package servlets_jdbc.listeners;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import servlets_jdbc.repositories.*;
 import servlets_jdbc.services.*;
 import servlets_jdbc.services.security.GeneralValidator;
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ComponentScanner implements ServletContextListener {
+
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -41,13 +43,14 @@ public class ComponentScanner implements ServletContextListener {
         PasswordEncoder passwordEncoder = new PasswordEncoderBCryptImpl();
         GeneralValidator generalValidator = new GeneralValidator();
         SecurityChecker securityChecker = new SecurityChecker();
-        FilterValidator filterValidator = new FilterValidator();
+        Json json = new Json(new ObjectMapper());
 
         sce.getServletContext().setAttribute("jdbcUtil", jdbcUtil);
         sce.getServletContext().setAttribute("executorService", executorService);
         sce.getServletContext().setAttribute("passwordEncoder", passwordEncoder);
         sce.getServletContext().setAttribute("generalValidator", generalValidator);
         sce.getServletContext().setAttribute("securityChecker", securityChecker);
+        sce.getServletContext().setAttribute("json", json);
 
 //        ==== /HELPERS ====
 
@@ -58,6 +61,7 @@ public class ComponentScanner implements ServletContextListener {
         CookieRepository cookieRepository = new CookieRepositoryImpl(jdbcUtil);
         FilmRepository filmRepository = new FilmRepositoryImpl(jdbcUtil);
         ReviewRepository reviewRepository = new ReviewRepositoryImpl(jdbcUtil);
+        ActorRepository actorRepository = new ActorRepositoryImpl(jdbcUtil);
 
 //        ==== /REPOSITORIES ====
 
@@ -68,13 +72,15 @@ public class ComponentScanner implements ServletContextListener {
         LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository, cookieRepository);
         LogoutService logoutService = new LogoutServiceImpl(cookieRepository);
         SignUpService signUpService = new SignUpServiceImpl(userRepository);
-        FilmService filmService = new FilmServiceImpl(filmRepository, reviewRepository, filterValidator);
+        FilmService filmService = new FilmServiceImpl(filmRepository, reviewRepository);
+        ActorService actorService = new ActorServiceImpl(actorRepository);
 
         sce.getServletContext().setAttribute("userService", userService);
         sce.getServletContext().setAttribute("loginService", loginService);
         sce.getServletContext().setAttribute("logoutService", logoutService);
         sce.getServletContext().setAttribute("signUpService", signUpService);
         sce.getServletContext().setAttribute("filmService", filmService);
+        sce.getServletContext().setAttribute("actorService", actorService);
 
 //        ==== /SERVICES ====
 

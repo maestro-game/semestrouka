@@ -1,25 +1,20 @@
 package servlets_jdbc.models.dto;
 
 import servlets_jdbc.models.Person;
-import servlets_jdbc.services.security.models.Role;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PersonDto {
+
     private String username;
-    private Role role;
 
-    public PersonDto() {
-    }
-
-    public PersonDto(String username, Role role) {
+    public PersonDto(String username) {
         this.username = username;
-        this.role = role;
     }
 
     public static PersonDto from(Person person) {
-        return new PersonDto(person.getUsername(), person.getRole());
+        return new PersonDto(person.getUsername());
     }
 
     public static List<PersonDto> from(List<Person> persons) {
@@ -30,15 +25,7 @@ public class PersonDto {
         return username;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

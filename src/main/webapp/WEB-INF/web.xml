@@ -25,8 +25,8 @@
     </servlet>
 
     <servlet>
-        <servlet-name>MainFilmsServlet</servlet-name>
-        <servlet-class>servlets_jdbc.servlets.MainFilmsServlet</servlet-class>
+        <servlet-name>FilmsServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.FilmsServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -55,13 +55,28 @@
     </servlet>
 
     <servlet>
-        <servlet-name>ConcreteFilmServlet</servlet-name>
-        <servlet-class>servlets_jdbc.servlets.ConcreteFilmServlet</servlet-class>
+        <servlet-name>FilmServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.FilmServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>FilterFilmsServlet</servlet-name>
         <servlet-class>servlets_jdbc.servlets.FilterFilmsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ActorsServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.ActorsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ActorServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.ActorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>servlets_jdbc.servlets.MainServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -172,18 +187,33 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>MainFilmsServlet</servlet-name>
+        <servlet-name>FilmsServlet</servlet-name>
         <url-pattern>/films</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>ConcreteFilmServlet</servlet-name>
+        <servlet-name>FilmServlet</servlet-name>
         <url-pattern>/film</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>FilterFilmsServlet</servlet-name>
-        <url-pattern>/filterFilms</url-pattern>
+        <url-pattern>/filter</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ActorsServlet</servlet-name>
+        <url-pattern>/actors</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ActorServlet</servlet-name>
+        <url-pattern>/actor</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!--    <resource-ref>-->

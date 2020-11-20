@@ -3,6 +3,7 @@ package servlets_jdbc.models.reviews;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -28,11 +29,14 @@ public enum Mark {
             Arrays.stream(Mark.values()).collect(Collectors.toMap(Mark::toInt, Function.identity()));
 
     public static Mark from(final Integer value) {
-//        FIXME: save null to database or save certain specific value
         return reverseLookup.getOrDefault(value, null);
     }
 
     public boolean isDefault() {
         return _default;
+    }
+
+    public static Double avgMark(List<Mark> marks) {
+        return marks.isEmpty() ? null : marks.stream().map(Mark::toInt).reduce(Integer::sum).get() * 1.0 / marks.size();
     }
 }
