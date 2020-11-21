@@ -58,7 +58,7 @@ public class SignUpServlet extends HttpServlet {
                 resp.sendRedirect("/login");
             } catch (IllegalStateException e) {
                 resultMap.clear();
-                resultMap.put("42", "Username is already in use");
+                resultMap.put("42", "Username or email is already in use");
                 req.setAttribute("errors", resultMap);
                 doGet(req, resp);
             } catch (IllegalArgumentException e) {

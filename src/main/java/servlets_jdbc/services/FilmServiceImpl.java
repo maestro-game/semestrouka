@@ -34,6 +34,8 @@ public class FilmServiceImpl implements FilmService {
                     .orElse(Collections.emptyList());
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
+        } finally {
+            description = null;
         }
     }
 

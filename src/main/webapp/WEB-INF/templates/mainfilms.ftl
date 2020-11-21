@@ -19,6 +19,9 @@
                     <#list description.getActors() as actor>
                         <p class="film__actor">${actor}</p>
                     </#list>
+                    <#list description.getAwards() as award>
+                        <p class="film__award">${award}</p>
+                    </#list>
                 </a>
             </div>
         </#list>

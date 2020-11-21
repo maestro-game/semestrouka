@@ -69,13 +69,15 @@ public class ComponentScanner implements ServletContextListener {
 //        ==== SERVICES ====
 
         UserService userService = new UserServiceImpl(userRepository, cookieRepository);
-        LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository, cookieRepository);
+        CookieService cookieService = new CookieServiceImpl(cookieRepository);
+        LoginService loginService = new LoginServiceImpl(passwordEncoder, userRepository);
         LogoutService logoutService = new LogoutServiceImpl(cookieRepository);
         SignUpService signUpService = new SignUpServiceImpl(userRepository);
         FilmService filmService = new FilmServiceImpl(filmRepository, reviewRepository);
         ActorService actorService = new ActorServiceImpl(actorRepository);
 
         sce.getServletContext().setAttribute("userService", userService);
+        sce.getServletContext().setAttribute("cookieService", cookieService);
         sce.getServletContext().setAttribute("loginService", loginService);
         sce.getServletContext().setAttribute("logoutService", logoutService);
         sce.getServletContext().setAttribute("signUpService", signUpService);

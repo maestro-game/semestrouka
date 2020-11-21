@@ -5,7 +5,9 @@ import servlets_jdbc.models.Person;
 import servlets_jdbc.repositories.CookieRepository;
 import servlets_jdbc.repositories.UserRepository;
 import servlets_jdbc.services.security.PasswordEncoder;
+import servlets_jdbc.services.security.models.AuthDto;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,27 +17,19 @@ public class LoginServiceImpl implements LoginService {
 
     private final UserRepository userRepository;
 
-    private final CookieRepository cookieRepository;
-
-    public LoginServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, CookieRepository cookieRepository) {
+    public LoginServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.cookieRepository = cookieRepository;
     }
 
     @Override
-    public Optional<String> signIn(Person person) {
-        Optional<Person> personCandidate = userRepository.findOneByUsername(person.getUsername());
+    public Optional<AuthDto> signIn(String username, String password) {
+        Optional<Person> personCandidate = userRepository.findOneByUsername(username);
 
         if (personCandidate.isPresent()) {
             Person personInDB = personCandidate.get();
-            if (passwordEncoder.verify(person.getPassword(), personInDB.getPassword())) {
-                CookieValue cookieValue = CookieValue.builder()
-                        .value(UUID.randomUUID().toString())
-                        .user(personInDB.getUsername())
-                        .build();
-                cookieRepository.save(cookieValue);
-                return Optional.of(cookieValue.getValue());
+            if (passwordEncoder.verify(password, personInDB.getPassword())) {
+                return Optional.of(AuthDto.from(personInDB, Collections.emptyList()));
             }
         }
         return Optional.empty();

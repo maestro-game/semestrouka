@@ -2,8 +2,10 @@ package servlets_jdbc.servlets;
 
 import servlets_jdbc.listeners.ComponentScanner;
 import servlets_jdbc.models.Person;
+import servlets_jdbc.services.CookieService;
 import servlets_jdbc.services.LoginService;
 import servlets_jdbc.services.security.GeneralValidator;
+import servlets_jdbc.services.security.models.AuthDto;
 import servlets_jdbc.services.security.models.ErrorMapPair;
 import servlets_jdbc.services.security.models.Role;
 
@@ -21,12 +23,14 @@ import java.util.Properties;
 public class LoginServlet extends HttpServlet {
 
     private LoginService loginService;
+    private CookieService cookieService;
     private GeneralValidator generalValidator;
     private Properties cookieProperties;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         loginService = ComponentScanner.get(config, "loginService", LoginService.class);
+        cookieService = ComponentScanner.get(config, "cookieService", CookieService.class);
         generalValidator = ComponentScanner.get(config, "generalValidator", GeneralValidator.class);
         cookieProperties = ComponentScanner.get(config, "cookieProperties", Properties.class);
     }
@@ -48,22 +52,20 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("errors", resultMap);
             doGet(req, resp);
         } else {
-            Person person = Person.builder()
-                    .username(resultMap.get("username").toLowerCase())
-                    .password(resultMap.get("password"))
-                    .role(Enum.valueOf(Role.class, "USER"))
-                    .build();
-
             boolean rememberMe = resultMap.get("rememberMe") != null;
 
-            Optional<String> cookieCandidate = loginService.signIn(person);
+            Optional<AuthDto> userCandidate;
+            if ((userCandidate =
+                    loginService.signIn(resultMap.get("username"), resultMap.get("password"))).isPresent()) {
 
-            if (cookieCandidate.isPresent()) {
-                Cookie cookie = new Cookie(cookieProperties.getProperty("cookies.userId"), cookieCandidate.get());
                 if (rememberMe) {
+                    Cookie cookie = new Cookie(cookieProperties.getProperty("cookies.userId"),
+                            cookieService.registerCookie(userCandidate.get().getUsername()));
                     cookie.setMaxAge(10 * 365 * 24 * 60 * 60);
+                    resp.addCookie(cookie);
+                } else {
+                    req.getSession().setAttribute("user", userCandidate.get());
                 }
-                resp.addCookie(cookie);
                 resp.sendRedirect("/profile");
             } else {
                 resultMap.clear();
