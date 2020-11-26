@@ -23,6 +23,8 @@ public class FilmRepositoryImpl implements FilmRepository {
     //  language=sql
     private static final String Q_FIND_ALL_FILMS_BY_DESCRIPTION = "SELECT * FROM films" +
             " WHERE description @> ?::jsonb ;";
+    //  language=sql
+    private static final String Q_FIND_ALL_LIKE = "SELECT * FROM films WHERE name LIKE (? || '%') ;";
 
     private final JdbcUtil jdbcUtil;
     private final RowMapper<Film> filmRowMapper = resultSet ->
@@ -54,6 +56,11 @@ public class FilmRepositoryImpl implements FilmRepository {
                         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                         .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                         .writerWithDefaultPrettyPrinter().writeValueAsString(description)));
+    }
+
+    @Override
+    public Optional<List<Film>> findAllFilmsByNameStartsWith(String name) {
+        return Optional.of(jdbcUtil.findAll(Q_FIND_ALL_LIKE, filmRowMapper, name));
     }
 
     @Override

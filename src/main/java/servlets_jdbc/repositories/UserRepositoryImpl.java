@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
                     "   THEN '{\"genres\":[' || ? || ']}'::jsonb" +
                     "   ELSE jsonb_set(interests, array['genres'], (interests->'genres')::jsonb || ('[' || ? || ']')::jsonb, true) " +
                     "END) WHERE username = ? ;";
-    private static final String Q_UPDATE_INFO = "UPDATE persons SET name = ? AND surname = ? AND phone = ? WHERE username = ? ;";
+    private static final String Q_UPDATE_INFO = "UPDATE persons SET name = ?, surname = ?, phone = ? WHERE username = ? ;";
     private static final String Q_SELECT_ALL = "SELECT * FROM persons;";
     private static final String Q_SELECT_ONE_BY_USERNAME = "SELECT * FROM persons WHERE username = ? ;";
     private static final String Q_SAVE = "INSERT INTO persons (username, password, email, name, surname, phone, role) " +

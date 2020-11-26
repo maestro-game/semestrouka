@@ -32,4 +32,6 @@ public interface FilmService {
     Review getReview(Long id);
 
     FilmService filter(Film.Description description);
+
+    FilmService filter(String name);
 }

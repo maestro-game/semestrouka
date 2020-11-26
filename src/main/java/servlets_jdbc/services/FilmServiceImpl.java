@@ -19,6 +19,7 @@ public class FilmServiceImpl implements FilmService {
     private final ReviewRepository reviewRepository;
 
     private Film.Description description;
+    private String name;
 
     public FilmServiceImpl(FilmRepository filmRepository, ReviewRepository reviewRepository) {
         this.filmRepository = filmRepository;
@@ -29,13 +30,14 @@ public class FilmServiceImpl implements FilmService {
     public List<Film> getFilms() {
         try {
             return (description == null
-                    ? filmRepository.findAllFilms()
+                    ? name == null ? filmRepository.findAllFilms() : filmRepository.findAllFilmsByNameStartsWith(name)
                     : filmRepository.findAllFilms(description))
                     .orElse(Collections.emptyList());
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         } finally {
             description = null;
+            name = null;
         }
     }
 
@@ -100,6 +102,12 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public FilmService filter(Film.Description description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public FilmService filter(String name) {
+        this.name = name;
         return this;
     }
 }

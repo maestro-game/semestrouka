@@ -29,7 +29,9 @@ public class FilmsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("films", FilmDto.from(filmService.getFilms()));
+        if (req.getAttribute("films") == null) {
+            req.setAttribute("films", FilmDto.from(filmService.getFilms()));
+        }
 
         req.getRequestDispatcher("mainfilms.ftl").forward(req, resp);
     }
