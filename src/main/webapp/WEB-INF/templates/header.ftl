@@ -14,6 +14,9 @@
             <li>
                 <a class="nav-item nav-link" href="/films">Films</a>
             </li>
+            <li>
+                <a class="nav-item nav-link" href="/actors">Actors</a>
+            </li>
             <@_roleCheck "GUEST" false>
             <li>
                 <a class="nav-item nav-link" href="/profile">Profile</a>
@@ -44,10 +47,8 @@
                 </li>
             </@_roleCheck>
         </ul>
-        <form onsubmit="return search()">
+        <form action="/filter">
             <input class="form-control" type="search" placeholder="Поиск фильма">
-            <div class="dropdown-menu" id="search_result">
-            </div>
         </form>
     </nav>
 </header>

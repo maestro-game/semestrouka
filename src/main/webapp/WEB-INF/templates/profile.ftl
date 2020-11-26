@@ -4,11 +4,11 @@
     <@_roleCheck role="GUEST" inclusion=false errorMessage=true>
         <div class="top_content row justify-content-center">
             <img class="col-md-auto avatar_img"
-                 src="https://sun9-45.userapi.com/ou07XDkFvNDhxE5socQvTUXSOTS_o5GayrJ4Jw/CwEY8zfMcHc.jpg">
+                 src="https://yt3.ggpht.com/a/AATXAJyOHm7BOqYcGiqatNSFkca-4XYwc5-0ysIN-3yFgg=s900-c-k-c0xffffffff-no-rj-mo">
             <span class="col-md-auto description">
                 <h1 id="username" class="username">${profileInfo.username}</h1>
                 <@_roleCheck role="ADMIN">
-                    <h2>Admin</h2>
+                    <h5>Admin</h5>
                 </@>
                 <div class="userinfo">
                     <form onsubmit="return send()">

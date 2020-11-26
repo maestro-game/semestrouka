@@ -1,10 +1,10 @@
 window.addEventListener("load", () => {
-    document.querySelector(".filter__form").addEventListener("submit", handler);
+    document.querySelector(".filter__form").addEventListener("submit", handlerFilter);
 });
 
-let mapDescriptionArray = (_, name) => `<p class=${'film__' + name}>${_}</p>`
+let mapDescriptionArray2 = (_) => `<span class="info_row_value">${_}</span>`;
 
-async function handler(event) {
+async function handlerFilter(event) {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -12,28 +12,44 @@ async function handler(event) {
 
     try {
         const formData = new FormData(form);
-        const responseData = await postForm(url, formData);
+        const responseData = await postFormFilter(url, formData);
 
-        let neededNodeHTML = document.querySelector(".filter").innerHTML;
+        let neededNodeHTML = document.querySelector(".films__list").innerHTML;
 
         for (let film of responseData) {
             console.log(film);
-            neededNodeHTML += "\
-            <div class=\"film\">\
-                <a href=\"/film?filmId=" + film.id + "\">\
-                    <img class=\"film__poster\" src=\"" + film.description.img + "\" alt=\"film poster\"/>\
-                    <p class=\"film__filename\">" + film.name + "</p>"
-                + film.description.genres.map((genre) => mapDescriptionArray(genre, "genre")) +
-                +film.description.actors.map((actor) => mapDescriptionArray(actor, "actor")) +
-                +film.description.awards.map((award) => mapDescriptionArray(award, "award")) +
-                "</a></div>";
+            let text = `<a href="film?filmId=${film.id}">
+                    <img class="col-md-auto film_avatar_img"
+                         src="${film.description.img}">
+                </a>
+                <span class="col-md-auto description">
+                <h2 class="film_name">${film.name}</h2>
+                <div class="userinfo">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Year
+                            <span class="info_row_value">${film.description.year}</span>
+                        </li>
+                        <li class="list-group-item">Genres
+                            ${film.description.genres.map((genre) => mapDescriptionArray2(genre))}
+                        </li>
+                        <li class="list-group-item">Awards
+                            ${film.description.actors.map((actor) => mapDescriptionArray2(actor))}
+                        </li>
+                        <li class="list-group-item">Actors
+                            ${film.description.awards.map((award) => mapDescriptionArray2(award))}
+                        </li>
+                    </ul>
+                </div>
+            </span>
+            </div>`;
+            neededNodeHTML += text;
         }
     } catch (err) {
         console.log(err);
     }
 }
 
-async function postForm(url, formData) {
+async function postFormFilter(url, formData) {
 
     const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
 

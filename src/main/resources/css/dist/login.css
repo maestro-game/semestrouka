@@ -2,8 +2,8 @@
     width: 300px;
     display: grid;
     grid-template-columns: auto auto 20px;
-    grid-template-areas: "u u u" "p p p" ". btn ." ". rmP rmI";
-    row-gap: 1vh;
+    grid-template-areas: "u u u" "p p p" "btn rmP rmI";
+    column-gap: 0.2em;
 }
 .login__form #username {
     grid-area: u;

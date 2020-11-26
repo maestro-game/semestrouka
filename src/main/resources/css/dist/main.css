@@ -49,10 +49,6 @@ header + * {
     margin-bottom: 0.5em;
 }
 
-.film__field {
+.actors__field {
     margin-bottom: 0.5em;
-}
-
-:root {
-    --primary: green;
 }

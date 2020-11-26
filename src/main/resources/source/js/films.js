@@ -1,9 +1,9 @@
 window.addEventListener("load", () => {
-    document.querySelector(".search__form").addEventListener("submit", handler);
+    document.querySelector(".film__form").addEventListener("submit", handlerFilms);
 })
 
 
-async function handler(event) {
+async function handlerFilms(event) {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -11,7 +11,7 @@ async function handler(event) {
 
     try {
         const formData = new FormData(form);
-        const responseData = await postForm(url, formData);
+        const responseData = await postFormFilms(url, formData);
 
         let neededNodeInnerHTML = document.querySelector(".films").innerHTML;
 
@@ -43,7 +43,7 @@ async function handler(event) {
     }
 }
 
-async function postForm(url, formData) {
+async function postFormFilms(url, formData) {
 
     const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
 
