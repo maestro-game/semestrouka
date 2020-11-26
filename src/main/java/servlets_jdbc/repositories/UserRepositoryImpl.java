@@ -103,7 +103,6 @@ public class UserRepositoryImpl implements UserRepository {
                 jdbcUtil.update(Q_UPDATE_GENRES, genres, genres, username);
             }
         } else {
-            System.out.println("HERE");
             jdbcUtil.update(Q_SET_GENRES_EMPTY, username);
         }
     }

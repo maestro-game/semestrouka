@@ -11,6 +11,12 @@
             <#list description.getGenres() as genre>
                 <p class="film__genre">${genre}</p>
             </#list>
+            <#list description.getActors() as actor>
+                <p class="film__actor">${actor}</p>
+            </#list>
+            <#list description.getAwards() as award>
+                <p class="film__award">${award}</p>
+            </#list>
         </div>
             <div class="comments">
                 <h3>Comments:</h3>
