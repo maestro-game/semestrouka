@@ -6,30 +6,35 @@
         fields=["img#url", "genres#text", "actors#text", "director#text"]
         btnValue="Search films" />
     </div>
-    <div class="films">
-        <#list films as film>
-            <div class="film">
-                <a href="/film?filmId=${film.getId()}">
-                    <#assign description = film.getDescription()>
-                    <img class="film__poster" src="${description.getImg()}" alt="film poster"/>
-                    <p class="film__filmname">${film.getName()}</p>
-                    <#list description.getGenres() as genre>
-                        <p class="film__genre">${genre}</p>
-                    </#list>
-                    <#list description.getActors() as actor>
-                        <p class="film__actor">${actor}</p>
-                    </#list>
-                    <#list description.getAwards() as award>
-                        <p class="film__award">${award}</p>
-                    </#list>
-                </a>
+    <#list films as film>
+        <div class="film row justify-content-center">
+            <#assign description = film.getDescription()>
+            <img class="col-md-auto film_avatar_img" src="${description.getImg()}" alt="film poster">
+            <span class="col-md-auto description">
+            <h2 class="film_name">${film.getName()}</h2>
+            <div class="userinfo">
+                <ul class="list-group list-group-flush">
+                    <#if description.year??>
+                        <li class="list-group-item">год<span class="info_row_value">${description.year}</span></li>
+                    </#if>
+                    <li class="list-group-item">жанры
+                        <#list description.getGenres() as genre>
+                            <span class="info_row_value">${genre}</span>
+                        </#list>
+                    </li>
+                    <li class="list-group-item">награды
+                        <#list description.awards as award>
+                            <span class="info_row_value">${award}</span>
+                        </#list>
+                    </li>
+                    <li class="list-group-item">актёры
+                        <#list description.actors as actor>
+                            <span class="info_row_value">${actor}</span>
+                        </#list>
+                    </li>
+                </ul>
             </div>
-        </#list>
-        <@_roleCheck "ADMIN">
-            <@_form class="film" action="films"
-            fields=["name#text#'Film name'",
-            "imgSrc#text#'Film poster image source URL'",
-            "genres#text#'Genres divided by space'"] btnValue="Add film" />
-        </@>
-    </div>
+        </span>
+        </div>
+    </#list>
 </@>

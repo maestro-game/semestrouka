@@ -1,0 +1,33 @@
+.login__form {
+    width: 300px;
+    display: grid;
+    grid-template-columns: auto auto 20px;
+    grid-template-areas: "u u u" "p p p" ". btn ." ". rmP rmI";
+    row-gap: 1vh;
+}
+.login__form #username {
+    grid-area: u;
+}
+.login__form #password {
+    grid-area: p;
+}
+.login__form div[class=login__rememberMe] {
+    grid-area: rmP;
+}
+.login__form input[id=rememberMe] {
+    grid-area: rmI;
+}
+.login__form .login__btn {
+    grid-area: btn;
+}
+.login__rememberMe {
+    display: flex;
+    margin: 0;
+}
+.login__field {
+    box-shadow: 3px 2px 2px rgba(200, 200, 200, 0.3);
+}
+
+.rememberMe__label {
+    margin: auto;
+}
