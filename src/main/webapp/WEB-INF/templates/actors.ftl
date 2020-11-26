@@ -6,8 +6,13 @@
             <#assign desc = actor.getDescription()>
             <div class="justify-content-start my_flex">
                 <a href="/actor?actorId=${actor.getId()}">
-                    <img class="col-md-auto avatar_img"
-                         src="${desc.img}">
+                    <#if desc.img??>
+                        <img class="col-md-auto avatar_img"
+                             src="${desc.img}">
+                    <#else>
+                        <img class="col-md-auto avatar_img"
+                             src="https://www.cameraegg.org/wp-content/uploads/2013/03/Canon-EOS-100D-Rebel-SL1-Sample-Image.jpg">
+                    </#if>
                 </a>
                 <span class="description">
                     <h1 class="username">${actor.getFullname()}</h1>

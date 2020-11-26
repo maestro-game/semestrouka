@@ -12,19 +12,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
               integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
               crossorigin="anonymous">
-        <#--ONLY FOR PROFILE -->
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-        <#--ONLY FOR PROFILE /-->
+        <#if page == "profile">
+            <link rel="stylesheet"
+                  href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+        </#if>
         <script
                 src="https://code.jquery.com/jquery-3.5.1.min.js"
                 integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
                 integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
                 crossorigin="anonymous"></script>
-        <#--ONLY FOR PROFILE -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-        <#--ONLY FOR PROFILE /-->
+        <#if page == "profile">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+        </#if>
         <link rel="stylesheet" href="/files/css/dist/main.css">
         <link rel="stylesheet" href="/files/css/dist/${page}.css">
         <title>${page?capitalize}</title>
@@ -53,7 +53,7 @@
                     <div class="modal-body">
                         <@_form class="film" action="films"
                         fields=["name#text#'Title'",
-                        "imgSrc#file#'URL of film's poster picture'",
+                        "imgSrc#url#'URL of film's poster picture'",
                         "year#number#'Year'",
                         "genres#text#'Genres (separated by \",\")'",
                         "actors#text#'Actors (separated by \",\")'",
