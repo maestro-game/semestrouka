@@ -14,4 +14,6 @@ public interface FilmRepository {
     Optional<Film> findFilmById(Long filmId);
 
     Optional<List<Film>> findAllFilms(Film.Description description) throws JsonProcessingException;
+
+    Optional<List<Film>> findAllFilmsByNameStartsWith(String name);
 }

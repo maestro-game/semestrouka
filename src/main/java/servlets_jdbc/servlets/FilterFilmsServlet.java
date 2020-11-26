@@ -25,7 +25,11 @@ public class FilterFilmsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("filter.ftl").forward(req, resp);
+        String name = req.getParameter("name");
+
+        req.setAttribute("films", filmService.filter(name).getFilms());
+
+        req.getRequestDispatcher("mainfilms.ftl").forward(req, resp);
     }
 
     @Override
