@@ -24,7 +24,7 @@ public class FilmsServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         filmService = ComponentScanner.get(config, "filmService", FilmService.class);
-        securityChecker = ComponentScanner.get(config, "securityCheck", SecurityChecker.class);
+        securityChecker = ComponentScanner.get(config, "securityChecker", SecurityChecker.class);
     }
 
     @Override
@@ -63,6 +63,6 @@ public class FilmsServlet extends HttpServlet {
     }
 
     private List<String> splitBy(String str) {
-        return splitBy(str, "\\s");
+        return splitBy(str, ", ");
     }
 }
