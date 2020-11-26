@@ -2,9 +2,13 @@
 <#include "macro.ftl">
 <@html "films" true>
     <div class="search">
-        <@_form class="search" action="filterFilms"
-        fields=["img#url", "genres#text", "actors#text", "director#text"]
-        btnValue="Search films" />
+        <@_form action="filter" class="filter"
+        fields=["year#text#'Year'",
+        "genres#text#'Genres (separated by \",\")'",
+        "actors#text#'Actors (separated by \",\")'",
+        "awards#text#'Awards (separated by \",\")'"]
+        btnValue="Search films"
+        />
     </div>
     <#list films as film>
         <div class="film row justify-content-center">

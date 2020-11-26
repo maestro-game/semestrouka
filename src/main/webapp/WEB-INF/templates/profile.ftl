@@ -62,11 +62,6 @@
                             <option selected="true">${genre}</option>
                         </#if>
                     </#list>
-                    <option>Жанр1</option>
-                    <option>Жанр2</option>
-                    <option>Жанр3</option>
-                    <option>Жанр4</option>
-                    <option>Жанр5</option>
                 </select>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

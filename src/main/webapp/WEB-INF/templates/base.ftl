@@ -40,6 +40,57 @@
     <#if js>
         <script src="/files/source/js/${page}.js"></script>
     </#if>
+    <@_roleCheck "ADMIN">
+        <div class="modal fade" id="addFilm" tabindex="-1" role="dialog" aria-labelledby="addFilmModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add film</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <@_form class="film" action="films"
+                        fields=["name#text#'Title'",
+                        "imgSrc#file#'URL of film's poster picture'",
+                        "year#number#'Year'",
+                        "genres#text#'Genres (separated by \",\")'",
+                        "actors#text#'Actors (separated by \",\")'",
+                        "awards#text#'Awards (separated by \",\")'"] btnValue="Add" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addActor" tabindex="-1" role="dialog" aria-labelledby="addActorModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add actor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <@_form class="actors" action="/actors"
+                        fields=["fullname#text#'Full name of actor'",
+                        "img#url#'URL of actor's profile picture'",
+                        "yearB#number#'Enter year of birth'",
+                        "yearD#number#'Enter year of death (or -1 if alive)'",
+                        "town#text#'Enter hometown'",
+                        "genres#text#'Genres actor is envolved into (separated by \",\")'",
+                        "awards#text#'Awards (separated by \",\")'",
+                        "isDirector#checkbox"]
+                        btnValue="Add actor" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/files/source/js/films.js"></script>
+        <script src="/files/source/js/actors.js"></script>
+    </@_roleCheck>
     </body>
     </html>
 </#macro>

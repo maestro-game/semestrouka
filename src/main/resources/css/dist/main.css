@@ -36,3 +36,23 @@ header + * {
     margin-left: auto;
     margin-right: auto;
 }
+
+.modal {
+    z-index: 100000;
+}
+
+.btn__nav {
+    padding-right: .5rem;
+}
+
+.film__field {
+    margin-bottom: 0.5em;
+}
+
+.film__field {
+    margin-bottom: 0.5em;
+}
+
+:root {
+    --primary: green;
+}

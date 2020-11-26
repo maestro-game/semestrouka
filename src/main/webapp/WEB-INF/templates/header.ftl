@@ -27,39 +27,27 @@
                 <a class="nav-item nav-link" href="/users">Users</a>
             </li>
             </@_roleCheck>
+            <@_roleCheck "ADMIN">
+                <li>
+                    <div class="btn__nav">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFilm">
+                            Add film
+                        </button>
+                    </div>
+                </li>
+                <li>
+                    <div class="btn__nav">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActor">
+                            Add actor
+                        </button>
+                    </div>
+                </li>
+            </@_roleCheck>
         </ul>
         <form onsubmit="return search()">
             <input class="form-control" type="search" placeholder="Поиск фильма">
             <div class="dropdown-menu" id="search_result">
             </div>
         </form>
-        <@_roleCheck "ADMIN">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFilm">
-                Добавить фильм
-            </button>
-
-            <div class="modal fade" id="addFilm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Добавить фильм</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <@_form class="film" action="films"
-                            fields=["name#text#'Название'",
-                            "imgSrc#text#'Ссылка на постер'",
-                            "year#number#'Год",
-                            "genres#text#'Жанры через пробел'",
-                            "actors#text#'Актёры через пробел'",
-                            "awards#text#'Жанры через пробел'",
-                            ""] btnValue="Добавить" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </@_roleCheck>
     </nav>
 </header>
