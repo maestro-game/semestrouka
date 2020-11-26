@@ -5,8 +5,13 @@
     <div class="top_content row justify-content-center">
         <#assign desc = actor.getDescription()>
         <div class="top_content row justify-content-center">
-            <img class="col-md-auto avatar_img"
-                 src="${desc.img}">
+            <#if desc.img??>
+                <img class="col-md-auto avatar_img"
+                     src="${desc.img}">
+            <#else>
+                <img class="col-md-auto avatar_img"
+                     src="https://www.cameraegg.org/wp-content/uploads/2013/03/Canon-EOS-100D-Rebel-SL1-Sample-Image.jpg">
+            </#if>
             <span class="col-md-auto description">
                 <h1 class="username">${actor.fullname}</h1>
                 <#if desc.director!false>

@@ -41,4 +41,5 @@
         </span>
         </div>
     </#list>
+    <script src="/files/source/js/filter.js"></script>
 </@>

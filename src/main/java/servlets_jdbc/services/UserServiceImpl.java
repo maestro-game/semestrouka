@@ -58,4 +58,5 @@ public class UserServiceImpl implements UserService {
         );
         return ProfileInfo.from(person, userRepository.getGenresByUsername(username).orElse(Collections.emptyList()));
     }
+
 }
