@@ -24,7 +24,7 @@
             </#if>
             <input type="${fieldType}" name="${fieldName}" id="${fieldName}"
                    class="${(fieldName == "rememberMe")?then(
-                   class + "__" + fieldName, class + "__field")}"
+                   class + "__" + fieldName, class + "__field")} form-control"
                     <#if fieldVars[2]??>
                    placeholder=${fieldVars[2]}
                    </#if>
@@ -48,7 +48,8 @@
                     </#switch>
             />
         </#list>
-        <input type="submit" value="${btnValue}" class="${class}__btn"/>
+        <input type="submit" value="${btnValue}" class="btn btn-primary"/>
+        <#nested>
     </form>
 
 </#macro>

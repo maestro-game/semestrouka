@@ -39,7 +39,7 @@ public class ProfileServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ProfileInfo profileInfo = mapper.readValue(req.getParameter("profileInfo"), ProfileInfo.class);
+        ProfileInfo profileInfo = mapper.readValue(req.getReader().readLine(), ProfileInfo.class);
         String username;
         if (securityChecker.isValidUsername(req, username = profileInfo.getUsername())) {
             try (PrintWriter pw = resp.getWriter()) {
@@ -58,7 +58,7 @@ public class ProfileServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ProfileInfo profileInfo = mapper.readValue(req.getParameter("profileInfo"), ProfileInfo.class);
+        ProfileInfo profileInfo = mapper.readValue(req.getReader().readLine(), ProfileInfo.class);
         String username;
         if (securityChecker.isValidUsername(req, username = profileInfo.getUsername())) {
             try (PrintWriter pw = resp.getWriter()) {

@@ -1,5 +1,6 @@
 package servlets_jdbc.filters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import servlets_jdbc.models.Person;
 import servlets_jdbc.services.UserService;
 import servlets_jdbc.services.security.models.AuthDto;
