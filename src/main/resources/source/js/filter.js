@@ -14,7 +14,9 @@ async function handlerFilter(event) {
         const formData = new FormData(form);
         const responseData = await postFormFilter(url, formData);
 
-        let neededNodeHTML = document.querySelector(".films__list").innerHTML;
+        let neededNodeHTML = document.querySelector(".films__list");
+
+        neededNodeHTML.html('');
 
         for (let film of responseData) {
             console.log(film);
